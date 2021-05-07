@@ -12,7 +12,9 @@ What problem does it solve?
 - It saves me having to write out a bunch of HTML to create a team display.
 
 What did you learn?
-- A. How to use inquirer, B. How to use fs, and C. (this stumped me for a minute) I can write javascript like normal (for some reason I thought I couldn'
+- A. How to use inquirer, 
+- B. How to use fs, and 
+- C. (this stumped me for a minute) I can write javascript like normal (for some reason I thought I couldn't write it like I could for the browser)
 
 ## Table of Contents
 - [Installation](#installation)
