@@ -38,7 +38,7 @@ ${cardsHtml}
 
 </html> 
                   
-                  `, err => console.log(err))
+                  `, err => console.log('HTML has been generated!'))
 }
 
 inq
@@ -124,7 +124,6 @@ inq
                     const current = res
                     answers.push(current)
                     i++
-                    console.log(answers)
                     if (eval('res.title' + i) !== 'Complete') {
                         addAnother();
                         return;
@@ -144,7 +143,6 @@ inq
         </div>
     </div>
                       `
-                            console.log(currentObject);
                             cardsHtml += '\n' + currentObject
                         }
                     }
