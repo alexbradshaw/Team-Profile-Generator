@@ -1,9 +1,13 @@
 const inq = require('inquirer')
 const fs = require('fs')
+const Employee = require('./lib/employee')
+const Manager = require('./lib/manager')
+const Engineer = require('./lib/engineer')
+const Intern = require('./lib/intern')
 
-function printHtml(cardsHtml){
+function printHtml(cardsHtml) {
     fs.writeFile('dist/team-profile.html',
-                        `
+        `
 <!DOCTYPE html> 
 <html lang="en"> 
  
@@ -71,47 +75,52 @@ inq
         }
     ])
     .then(res => {
-        var answers = [res]
+        const answers = [res]
+        console.log(res);
+        const man = new Manager(res.man, res.manId, res.manEmail, res.manOff)
         let i = 1
         const manHtml = `        
         <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">${answers[0].man}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Team Manager</h6>
-          <p class="card-text">Office Number: ${answers[0].manOff}</p>
-          <p class="card-text">Id: ${answers[0].manId}</p>
-          <a href="mailto:${answers[0].manEmail}" class="card-link">Email</a>
+          <h5 class="card-title">${man.getName()}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${man.getRole()}</h6>
+          <p class="card-text">Office Number: ${man.getOffice()}</p>
+          <p class="card-text">Id: ${man.getId()}</p>
+          <a href="mailto:${man.getEmail()}" class="card-link">Email</a>
         </div>
       </div>
       `
+        let currentTitle
+        if (eval('res.title' + i) === 'Intern') {
+            currentTitle = 'school'
+        } else if (eval('res.title' + i) === 'Engineer') {
+            currentTitle = 'github'
+        } else {
+            currentTitle = 'error'
+        }
         var cardsHtml = manHtml
-        function addAnother() {
+        function addAnother(res) {
             inq
                 .prompt([
                     {
                         type: 'input',
-                        message: `What is the name of your team member?`,
+                        message: `What is the name of your ${eval('res.title' + i)}?`,
                         name: `member${i}Name`,
                     },
                     {
                         type: 'input',
-                        message: 'What is the team member\'s employee ID?',
+                        message: `What is the ${eval('res.title' + i)}'s employee ID?`,
                         name: `member${i}Id`,
                     },
                     {
                         type: 'input',
-                        message: 'What is the team member\'s email address?',
+                        message: `What is the ${eval('res.title' + i)}'s email address?`,
                         name: `member${i}Email`,
                     },
                     {
                         type: 'input',
-                        message: 'What is the team member\'s office number?',
-                        name: `member${i}Off`,
-                    },
-                    {
-                        type: 'input',
-                        message: 'What is the team member\'s github username?',
-                        name: `member${i}Ghub`,
+                        message: `What is the ${eval('res.title' + i)}'s ${currentTitle}?`,
+                        name: `member${i}Other`,
                     },
                     {
                         type: 'list',
@@ -123,26 +132,64 @@ inq
                 .then(res => {
                     const current = res
                     answers.push(current)
+                    console.log(answers);
                     i++
+                    if (eval('res.title' + i) === 'Intern') {
+                        currentTitle = 'school'
+                    } else if (eval('res.title' + i) === 'Engineer') {
+                        currentTitle = 'github'
+                    } else {
+                        currentTitle = 'error'
+                    }
                     if (eval('res.title' + i) !== 'Complete') {
-                        addAnother();
+                        addAnother(res);
                         return;
                     }
                     if (answers[0].title1 !== 'Complete') {
                         for (let a = 1; a < answers.length; a++) {
+                            console.log(eval(`answers[${a - 1}]`));
+                            var currentObject
+                            if (eval(`answers[${a - 1}].title` + a) === 'Engineer') {
+                                const eng = new Engineer(eval(`answers[${a}].member${a}Name`), eval(`answers[${a}].member${a}Id`), eval(`answers[${a}].member${a}Email`), eval(`answers[${a}].member${a}Other`))
 
-                            const currentObject = `        
+                                currentObject = `        
     <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">${eval(`answers[${a}].member${a}Name`)}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">${eval(`answers[${a - 1}].title` + a)}</h6>
-            <p class="card-text">Office Number: ${eval(`answers[${a}].member${a}Off`)}</p>
-            <p class="card-text">Id: ${eval(`answers[${a}].member${a}Id`)}</p>
-            <a href="mailto:${eval(`answers[${a}].member${a}Email`)}" class="card-link">Email</a>
-            <a href="https://github.com/${eval(`answers[${a}].member${a}Ghub`)}" class="card-link" target='_blank'>Github</a>
+            <h5 class="card-title">${eng.getName()}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${eng.getRole()}</h6>
+            <p class="card-text">Id: ${eng.getId()}</p>
+            <a href="mailto:${eng.getEmail()}" class="card-link">Email</a>
+            <a href="https://github.com/${eng.getGithub()}" class="card-link" target='_blank'>Github</a>
         </div>
     </div>
                       `
+                            } else if (eval(`answers[${a - 1}].title` + a) === 'Intern') {
+                                const inte = new Intern(eval(`answers[${a}].member${a}Name`), eval(`answers[${a}].member${a}Id`), eval(`answers[${a}].member${a}Email`), eval(`answers[${a}].member${a}Other`))
+
+                                currentObject = `        
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">${inte.getName()}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${inte.getRole()}</h6>
+            <p class="card-text">Id: ${inte.getId()}</p>
+            <p class="card-text">School: ${inte.getSchool()}</p>
+            <a href="mailto:${inte.getEmail()}" class="card-link">Email</a>
+        </div>
+    </div>
+                      `
+                            } else {
+                                currentObject = `        
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${eval(`answers[${a}].member${a}Name`)}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">${eval(`answers[${a - 1}].title` + a)}</h6>
+                                        <p class="card-text">Id: ${eval(`answers[${a}].member${a}Id`)}</p>
+                                        <a href="mailto:${eval(`answers[${a}].member${a}Email`)}" class="card-link">Email</a>
+                                        <a href="https://github.com/${eval(`answers[${a}].member${a}Other`)}" class="card-link" target='_blank'>Github</a>
+                                    </div>
+                                </div>
+                                                  `
+                            }
                             cardsHtml += '\n' + currentObject
                         }
                     }
@@ -151,11 +198,10 @@ inq
                 })
         }
         if (eval('res.title' + i) !== 'Complete') {
-            addAnother()
+            addAnother(res)
         } else {
             printHtml(cardsHtml)
         }
     })
 
     .catch(err => console.error(err))
-
