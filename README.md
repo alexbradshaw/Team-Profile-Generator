@@ -26,7 +26,10 @@ What did you learn?
 ## Installation
 git clone && npm i
 ## Usage
-![team_profile.jpg](assets/$team_profile.jpg?raw=true)
+### Working Application
+![team_profile.jpg](assets/team_profile.jpg?raw=true)
+### Working Tests
+![team_profile.jpg](assets/working_tests.jpg?raw=true)
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Contributing

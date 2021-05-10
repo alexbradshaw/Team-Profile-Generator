@@ -76,8 +76,7 @@ inq
     ])
     .then(res => {
         const answers = [res]
-        console.log(res);
-        const man = new Manager(res.man, res.manId, res.manEmail, res.manOff)
+        const man = new Manager(res.man, parseInt(res.manId), res.manEmail, parseInt(res.manOff))
         let i = 1
         const manHtml = `        
         <div class="card" style="width: 18rem;">
@@ -132,7 +131,6 @@ inq
                 .then(res => {
                     const current = res
                     answers.push(current)
-                    console.log(answers);
                     i++
                     if (eval('res.title' + i) === 'Intern') {
                         currentTitle = 'school'
@@ -147,10 +145,9 @@ inq
                     }
                     if (answers[0].title1 !== 'Complete') {
                         for (let a = 1; a < answers.length; a++) {
-                            console.log(eval(`answers[${a - 1}]`));
                             var currentObject
                             if (eval(`answers[${a - 1}].title` + a) === 'Engineer') {
-                                const eng = new Engineer(eval(`answers[${a}].member${a}Name`), eval(`answers[${a}].member${a}Id`), eval(`answers[${a}].member${a}Email`), eval(`answers[${a}].member${a}Other`))
+                                const eng = new Engineer(eval(`answers[${a}].member${a}Name`), parseInt(eval(`answers[${a}].member${a}Id`)), eval(`answers[${a}].member${a}Email`), eval(`answers[${a}].member${a}Other`))
 
                                 currentObject = `        
     <div class="card" style="width: 18rem;">
@@ -164,7 +161,7 @@ inq
     </div>
                       `
                             } else if (eval(`answers[${a - 1}].title` + a) === 'Intern') {
-                                const inte = new Intern(eval(`answers[${a}].member${a}Name`), eval(`answers[${a}].member${a}Id`), eval(`answers[${a}].member${a}Email`), eval(`answers[${a}].member${a}Other`))
+                                const inte = new Intern(eval(`answers[${a}].member${a}Name`), parseInt(eval(`answers[${a}].member${a}Id`)), eval(`answers[${a}].member${a}Email`), eval(`answers[${a}].member${a}Other`))
 
                                 currentObject = `        
     <div class="card" style="width: 18rem;">
