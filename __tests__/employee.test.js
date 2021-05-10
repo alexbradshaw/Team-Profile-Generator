@@ -18,5 +18,26 @@ describe("Employee", () => {
         expect(emp.getEmail()).toEqual('alexanderbradshaw5@gmail.com');
         expect(emp.getRole()).toEqual('Employee')
       });
+
+      it("should throw an error if not provided an name", () => {
+        const cb = () => new Employee();
+        const err = new Error("Expected parameter 'name' to be a non-empty string");
+  
+        expect(cb).toThrowError(err);
+      });
+  
+      it("should throw an error if not provided an id", () => {
+        const cb = () => new Employee("Jose");
+        const err = new Error("Expected parameter 'id' to be a number");
+  
+        expect(cb).toThrowError(err);
+      });
+  
+      it("should throw an error if not provided an email", () => {
+        const cb = () => new Employee("Noah", 45);
+        const err = new Error("Expected parameter 'email' to be a non-empty string");
+  
+        expect(cb).toThrowError(err);
+      });
     });
   });

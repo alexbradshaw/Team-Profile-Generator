@@ -20,5 +20,12 @@ describe("Manager", () => {
         expect(man.getOffice()).toEqual(604);
         expect(man.getRole()).toEqual('Manager')
       });
+
+    it("should throw an error if not provided an office number", () => {
+      const cb = () => new Manager("Slaton", 76, 'slatonsith@gmail.com');
+      const err = new Error("Expected parameter 'office number' to be a number");
+
+      expect(cb).toThrowError(err);
+    });
     });
   });

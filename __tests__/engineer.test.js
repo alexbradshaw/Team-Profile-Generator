@@ -20,5 +20,12 @@ describe("Engineer", () => {
         expect(eng.getGithub()).toEqual('lucasm52');
         expect(eng.getRole()).toEqual('Engineer')
       });
+
+      it("should throw an error if not provided an github", () => {
+        const cb = () => new Engineer("Carlos", 3, 'calvarado@gmail.com');
+        const err = new Error("Expected parameter 'github' to be a non-empty string");
+  
+        expect(cb).toThrowError(err);
+      });
     });
   });
